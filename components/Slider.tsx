@@ -5,9 +5,14 @@ import {Slider} from '@miblanchard/react-native-slider';
 interface SliderProps {
   value: number;
   onValueChange: (value: any) => void;
+  completeSliding: () => void;
 }
 
-const SliderComponent: React.FC<SliderProps> = ({value, onValueChange}) => {
+const SliderComponent: React.FC<SliderProps> = ({
+  value,
+  onValueChange,
+  completeSliding,
+}) => {
   return (
     <View>
       <Text style={styles.score}>Risk score: {value}</Text>
@@ -17,6 +22,7 @@ const SliderComponent: React.FC<SliderProps> = ({value, onValueChange}) => {
         minimumValue={0}
         maximumValue={10}
         step={1}
+        onSlidingComplete={completeSliding}
       />
     </View>
   );
