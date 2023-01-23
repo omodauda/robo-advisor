@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import {
+  ActivityIndicator,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -19,6 +20,31 @@ function App(): JSX.Element {
   };
 
   const [sliderValue, setSliderValue] = useState(0);
+  const [loading, setLoading] = useState(false);
+  // const [isSliding, setIsSliding] = useState(false);
+
+  const handleSlidingComplete = () => {
+    // setIsSliding(false);
+    getData();
+  };
+
+  const getData = useCallback(async () => {
+    console.log('i was called');
+    setLoading(true);
+    const data = await fetch(`http://localhost:3000?riskScore=${sliderValue}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const response = await data.json();
+    console.log(response);
+    setLoading(false);
+  }, [sliderValue]);
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -30,7 +56,9 @@ function App(): JSX.Element {
         <SliderComponent
           value={sliderValue}
           onValueChange={value => setSliderValue(value[0])}
+          completeSliding={handleSlidingComplete}
         />
+        {loading && <ActivityIndicator />}
       </View>
     </SafeAreaView>
   );
