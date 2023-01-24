@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@miblanchard/react-native-slider": "^2.2.0",
+    "@react-native-community/art": "^1.2.0",
     "react": "18.2.0",
-    "react-native": "0.71.1"
+    "react-native": "0.71.1",
+    "react-native-pie-chart": "^2.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
