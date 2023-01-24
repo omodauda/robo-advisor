@@ -6,12 +6,14 @@ interface SliderProps {
   value: number;
   onValueChange: (value: any) => void;
   completeSliding: () => void;
+  onSlidingStart?: () => void;
 }
 
 const SliderComponent: React.FC<SliderProps> = ({
   value,
   onValueChange,
   completeSliding,
+  onSlidingStart,
 }) => {
   return (
     <View>
@@ -22,7 +24,11 @@ const SliderComponent: React.FC<SliderProps> = ({
         minimumValue={0}
         maximumValue={10}
         step={1}
+        onSlidingStart={onSlidingStart}
         onSlidingComplete={completeSliding}
+        minimumTrackTintColor="white"
+        maximumTrackTintColor="black"
+        thumbTintColor="white"
       />
     </View>
   );
@@ -33,6 +39,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     fontWeight: '600',
+    color: 'white',
+    marginBottom: 10,
   },
 });
 
