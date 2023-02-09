@@ -11,6 +11,7 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import SliderComponent from './components/Slider';
 import PieChart from 'react-native-pie-chart';
+import STOCK_DATA from './mock/stocks';
 
 interface StockDataProps {
   alternative: number;
@@ -55,38 +56,27 @@ function App(): JSX.Element {
   };
 
   const sliceColor = [
-    colors.alternative, // alternative
-    colors.commodities, // commodities
-    colors.emerging, // emerging stocks
-    colors.foreignBond, // foreign bonds
-    colors.foreignStock, // foreign stocks
-    colors.nigerianBond, // nigerian bonds
     colors.nigerianStock, // nigerian stocks
+    colors.foreignStock, // foreign stocks
+    colors.techStock, // tech stocks
+    colors.emerging, // emerging stocks
+    colors.nigerianBond, // nigerian bonds
+    colors.foreignBond, // foreign bonds
+    colors.commodities, // commodities
     colors.realEstate, // real estate
     colors.tBills, // tBills
-    colors.techStock, // tech stocks
+    colors.alternative, // alternative
   ];
 
   const getData = useCallback(async () => {
     setLoading(true);
-    const data = await fetch(
-      `https://robo-advisor-api.herokuapp.com/?riskScore=${sliderValue}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-    const response = await data.json();
-    if (response?.data) {
-      setStockData(response.data.stocks);
-      let newSeries: number[] = [];
-      Object.values(response?.data?.stocks).map((stock: any) => {
-        newSeries.push(stock);
-      });
-      setSeries(newSeries);
-    }
+    const _data = STOCK_DATA.find(data => data.score === sliderValue);
+    setStockData(_data!.stocks);
+    let newSeries: number[] = [];
+    Object.values(_data!.stocks).map(stock => {
+      newSeries.push(stock);
+    });
+    setSeries(newSeries);
     setLoading(false);
   }, [sliderValue]);
 
